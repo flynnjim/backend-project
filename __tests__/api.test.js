@@ -11,14 +11,33 @@ afterAll(() => db.end())
 
 describe("News API BACKEND PROJECT", () => {
     describe("GET /api/topics that returns all topics", () => {
-        //get all topics
-        //an array of topic objects, each of which have properties of:
-        //slug
-        // description
+
         test('returns a 200 response status', () => {
             return request(app)
             .get('/api/topics')
             .expect(200)
+        })
+        test('returns a 200 response status and data with correct properties', () => {
+            return request(app)
+            .get('/api/topics')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(Array.isArray(body)).toBe(true)
+                body.forEach((topic) => {
+                    expect(topic).toHaveProperty("slug")
+                    expect(topic).toHaveProperty("description")
+                })
+            })
+        })
+        test('returns a 404 response status if sent invalid address with appropriate error message', () => {
+            return request(app)
+            .get('/api/topicks')
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body.msg).toBe("Sorry, the endpoint you are searching for does not exist.")
+            })
         })
     })
 })
