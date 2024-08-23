@@ -25,5 +25,6 @@
         }
       ]
     }
-  }
+  },
+  "Things to include": "description, acceptable queries, format and example as above"
 }

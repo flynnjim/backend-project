@@ -40,4 +40,25 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
+    describe("GET /api that returns documentation of available api endpoints", () => {
+
+        test('returns a 200 response status', () => {
+            return request(app)
+            .get('/api')
+            .expect(200)
+        })
+        test('returns a documentation with the expected properties', () => {
+            return request(app)
+            .get('/api')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(typeof body).toBe("object")
+                const objectKeys = Object.keys(body)
+                expect(objectKeys.includes("GET /api")).toBe(true)
+                expect(objectKeys.includes("GET /api/topics")).toBe(true)
+                expect(objectKeys.includes("GET /api/articles")).toBe(true)
+            })
+        })
+    })
 })
