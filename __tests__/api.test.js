@@ -86,5 +86,24 @@ describe("News API BACKEND PROJECT", () => {
                 expect(objectKeys.includes("article_img_url")).toBe(true)
             })
         })
+        test("returns a 400 Bad request when parameter is invalid", () => {
+            return request(app)
+            .get('/api/articles/first')
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 404 not found when parameter is out of article_id range", () => {
+            return request(app)
+            .get('/api/articles/999')
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Article not found"})
+            })
+        })
+        // wrong data type and out of range
     })
 })

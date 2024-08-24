@@ -12,29 +12,25 @@ app.all('*', (request, response) => {
     response.status(404).send({msg: "Sorry, the endpoint you are searching for does not exist."})
 })
 
-/*
+app.use((err, request, response, next) => {
+    const {status, msg} = err
+    if (err.msg === "Bad request") {
+        response.status(status).send({msg})
+    } else {
+        next(err)
+    }
+})
+app.use((err, request, response, next) => {
+    const {status, msg} = err
+    if (err.msg === "Article not found") {
+        response.status(status).send({msg})
+    }
+    next(err)
+})
 
-CORE: GET /api/articles/:article_id
-Description
-Should:
-
-be available on /api/articles/:article_id.
-get an article by its id.
-Responds with:
-
-an article object, which should have the following properties:
-author
-title
-article_id
-body
-topic
-created_at
-votes
-article_img_url
-Consider what errors could occur with this endpoint, and make sure to test for them.
-
-Remember to add a description of this endpoint to your /api endpoint.
-
-*/
+app.use((err, request, response, next) => {
+    const {status, msg} = err
+    response.status(500).send({err})
+})
 
 module.exports = app;
