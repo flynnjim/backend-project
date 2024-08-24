@@ -61,4 +61,30 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
+    describe("GET /api/articles/:article_id that returns article with passed article id", () => {
+        test("returns a 200 response status", () => {
+            return request(app)
+            .get('/api/articles/1')
+            .expect(200)
+        })
+        test("returns a an array of length 1 with object with expected properties", () => {
+            return request(app)
+            .get('/api/articles/1')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(Array.isArray(body)).toBe(true)
+                expect(body.length).toBe(1)
+                const objectKeys = Object.keys(body[0])
+                expect(objectKeys.includes("author")).toBe(true)
+                expect(objectKeys.includes("title")).toBe(true)
+                expect(objectKeys.includes("article_id")).toBe(true)
+                expect(objectKeys.includes("body")).toBe(true)
+                expect(objectKeys.includes("topic")).toBe(true)
+                expect(objectKeys.includes("created_at")).toBe(true)
+                expect(objectKeys.includes("votes")).toBe(true)
+                expect(objectKeys.includes("article_img_url")).toBe(true)
+            })
+        })
+    })
 })
