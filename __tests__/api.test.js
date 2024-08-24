@@ -196,6 +196,15 @@ describe("News API BACKEND PROJECT", () => {
                 })
             })
         })
-        
+        test("returns a 404 if wrong api url is entered", () => {
+            return request(app)
+            .get('/api/articlees')
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body.msg).toBe("Sorry, the endpoint you are searching for does not exist.")
+            })
+        })
+
     })
 })
