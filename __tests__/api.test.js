@@ -106,7 +106,7 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
-    describe("GET /api/articles returns all articles", () => {
+    describe("GET /api/articles returns all articles", () =>{
         test("returns a 200 response status", () => {
             return request(app)
             .get('/api/articles')
@@ -206,5 +206,30 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
 
+    })
+    describe("GET /api/articles/:article_id/comments", () =>{
+        test("returns a 200 status code", () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+        })
+        test("returns a comments based on passed article id", () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body.length === 11).toBe(true)
+                body.forEach((comment) => {
+                    const objectKeys = Object.keys(comment)
+                    expect(objectKeys.includes("comment_id")).toBe(true)
+                    expect(objectKeys.includes("votes")).toBe(true)
+                    expect(objectKeys.includes("created_at")).toBe(true)
+                    expect(objectKeys.includes("author")).toBe(true)
+                    expect(objectKeys.includes("body")).toBe(true)
+                    expect(objectKeys.includes("article_id")).toBe(true)
+                })
+            })
+        })
     })
 })
