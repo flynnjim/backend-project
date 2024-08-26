@@ -231,5 +231,37 @@ describe("News API BACKEND PROJECT", () => {
                 })
             })
         })
+        test("returns comments sorted by age descending", () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                let preSortValue = Infinity
+                body.forEach((comment) => {
+                    const timeInMil = new Date(comment.created_at).getTime()
+                    expect(timeInMil <= preSortValue).toBe(true)
+                    preSortValue = timeInMil
+                })
+            })
+        })
+        test("returns a 400 Bad request when parameter is invalid", () => {
+            return request(app)
+            .get('/api/articles/one/comments')
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 404 not found when parameter is out of article_id range", () => {
+            return request(app)
+            .get('/api/articles/999/comments')
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Comments not found"})
+            })
+        })
     })
 })

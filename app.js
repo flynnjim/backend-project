@@ -26,11 +26,12 @@ app.use((err, request, response, next) => {
 })
 app.use((err, request, response, next) => {
     const {status, msg} = err
-    if (err.msg === "Article not found") {
+    if (err.status === 404) {
         response.status(status).send({msg})
     }
     next(err)
 })
+
 
 app.use((err, request, response, next) => {
     const {status, msg} = err
