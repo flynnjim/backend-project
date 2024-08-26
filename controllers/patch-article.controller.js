@@ -5,4 +5,7 @@ exports.patchArticle = (request, response, next) => {
     addVotes(params, body).then((article) => {
         response.status(200).send(article)    
     })
+    .catch((err) => {
+        next(err)
+    })
 }

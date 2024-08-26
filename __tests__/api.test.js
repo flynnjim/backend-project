@@ -375,9 +375,51 @@ describe("News API BACKEND PROJECT", () => {
                 expect(body[0].votes).toBe(110)
             })
         })
+        test("returns a 404 when no article is found", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/999')
+            .send(body)
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Article not found"})
+        })
+        })
+        test("returns a 400 response status if passed invalid body object", () => {
+            const body = { inc_boats: 10,
+                            inc_floats: 1 }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 when inc_votes is not a number", () => {
+            const body = { inc_votes: "ten" }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+        })
+        })
+        test("returns a 400 when article_id is not a number", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/one')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+             })
+        })
+
     })
-//     UPDATE employee
-// SET email = 'annie.smith@myemail.com'
-// WHERE emp_id = 1
-// RETURNING *;
 })
