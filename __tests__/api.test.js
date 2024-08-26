@@ -355,4 +355,71 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
+    describe("PATCH /api/articles/:article_id", () => {
+        test("returns a 200 status code", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(200)
+        })
+        test("returns an article object with vote incremented by passed body", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body.length).toBe(1)
+                expect(body[0].votes).toBe(110)
+            })
+        })
+        test("returns a 404 when no article is found", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/999')
+            .send(body)
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Article not found"})
+        })
+        })
+        test("returns a 400 response status if passed invalid body object", () => {
+            const body = { inc_boats: 10,
+                            inc_floats: 1 }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 when inc_votes is not a number", () => {
+            const body = { inc_votes: "ten" }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+        })
+        })
+        test("returns a 400 when article_id is not a number", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/one')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+             })
+        })
+
+    })
 })
