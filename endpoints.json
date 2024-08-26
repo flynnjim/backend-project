@@ -58,5 +58,20 @@
       ]
     }
   },
+  "POST /api/articles/:article_id/comments": {
+    "description": "Inserts comment with passed article_id and username and returns the comment as response",
+    "queries": [],
+    "exampleResponse": {
+      "comment": [
+        {
+          "body": "I hate streaming noses",
+          "votes": 0,
+          "author": "icellusedkars",
+          "article_id": 1,
+          "created_at": "2018-05-30T15:59:13.341Z"
+        }
+      ]
+    }
+  },
   "Things to include": "description, acceptable queries, format and example as above"
 }

@@ -310,10 +310,6 @@ describe("News API BACKEND PROJECT", () => {
                 const { body } = response
                 expect(body).toEqual({msg: "Bad request"})
             })
-
-
-            // errors - wrong format for data type passed
-            //errors - wrong format for passed body
         })
         test("returns a 400 if body contains article_id without corresponding entry", () => {
             const body = {
@@ -327,6 +323,35 @@ describe("News API BACKEND PROJECT", () => {
             .then((response) => {
                 const { body } = response
                 expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 if body is not in correct format", () => {
+            const body = {
+                writer: "butter_tower",
+                text: "I want more noise!",
+                other: "I enjoyed this!"
+            }
+            return request(app)
+            .post('/api/articles/1/comments')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 when passed article_id with incorrect format", () => {
+            const body = {
+                author: "butter_bridge",
+                body: "I want more noise!"
+            }
+            return request(app)
+            .post('/api/articles/one/comments')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"}) 
             })
         })
     })
