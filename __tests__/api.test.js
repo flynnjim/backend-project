@@ -264,4 +264,95 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
+
+    describe("POST /api/articles/:article_id/comments", () => {
+        test("returns a 201 status code", () => {
+            const body = {
+                author: "butter_bridge",
+                body: "I want more noise!"
+            }
+            return request(app)
+            .post('/api/articles/1/comments')
+            .send(body)
+            .expect(201)
+        })
+        test("returns a object with commented added", () => {
+            const body = {
+                author: "butter_bridge",
+                body: "I want more noise!"
+            }
+            return request(app)
+            .post('/api/articles/1/comments')
+            .send(body)
+            .expect(201)
+            .then((response) => {
+                const { body } = response
+                const objectKeys = Object.keys(body[0])
+                expect(body.length).toBe(1)
+                expect(objectKeys.includes("author")).toBe(true)
+                expect(objectKeys.includes("body")).toBe(true)
+                expect(objectKeys.includes("comment_id")).toBe(true)
+                expect(objectKeys.includes("created_at")).toBe(true)
+                expect(objectKeys.includes("votes")).toBe(true)
+                expect(body[0].article_id).toBe(1)
+            })
+        })
+        test("returns a 400 if body contains username corresponding entry", () => {
+            const body = {
+                author: "butter_tower",
+                body: "I want more noise!"
+            }
+            return request(app)
+            .post('/api/articles/1/comments')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 if body contains article_id without corresponding entry", () => {
+            const body = {
+                author: "butter_bridge",
+                body: "I want more noise!"
+            }
+            return request(app)
+            .post('/api/articles/999/comments')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 if body is not in correct format", () => {
+            const body = {
+                writer: "butter_tower",
+                text: "I want more noise!",
+                other: "I enjoyed this!"
+            }
+            return request(app)
+            .post('/api/articles/1/comments')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 400 when passed article_id with incorrect format", () => {
+            const body = {
+                author: "butter_bridge",
+                body: "I want more noise!"
+            }
+            return request(app)
+            .post('/api/articles/one/comments')
+            .send(body)
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"}) 
+            })
+        })
+    })
 })
