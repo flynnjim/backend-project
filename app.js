@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const {getTopics, getDocumentation, getArticle, getAllArticles} = require('./controllers/index.controllers')
+const {getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments} = require('./controllers/index.controllers')
 
 app.get('/api/topics', getTopics)
 
@@ -9,6 +9,8 @@ app.get('/api', getDocumentation)
 app.get('/api/articles/:article_id', getArticle)
 
 app.get('/api/articles', getAllArticles)
+
+app.get('/api/articles/:article_id/comments', getArticleComments)
 
 app.all('*', (request, response) => {
     response.status(404).send({msg: "Sorry, the endpoint you are searching for does not exist."})
@@ -24,11 +26,12 @@ app.use((err, request, response, next) => {
 })
 app.use((err, request, response, next) => {
     const {status, msg} = err
-    if (err.msg === "Article not found") {
+    if (err.status === 404) {
         response.status(status).send({msg})
     }
     next(err)
 })
+
 
 app.use((err, request, response, next) => {
     const {status, msg} = err

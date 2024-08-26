@@ -106,7 +106,7 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
-    describe("GET /api/articles returns all articles", () => {
+    describe("GET /api/articles returns all articles", () =>{
         test("returns a 200 response status", () => {
             return request(app)
             .get('/api/articles')
@@ -206,5 +206,62 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
 
+    })
+    describe("GET /api/articles/:article_id/comments", () =>{
+        test("returns a 200 status code", () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+        })
+        test("returns a comments based on passed article id", () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body.length === 11).toBe(true)
+                body.forEach((comment) => {
+                    const objectKeys = Object.keys(comment)
+                    expect(objectKeys.includes("comment_id")).toBe(true)
+                    expect(objectKeys.includes("votes")).toBe(true)
+                    expect(objectKeys.includes("created_at")).toBe(true)
+                    expect(objectKeys.includes("author")).toBe(true)
+                    expect(objectKeys.includes("body")).toBe(true)
+                    expect(objectKeys.includes("article_id")).toBe(true)
+                })
+            })
+        })
+        test("returns comments sorted by age descending", () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                let preSortValue = Infinity
+                body.forEach((comment) => {
+                    const timeInMil = new Date(comment.created_at).getTime()
+                    expect(timeInMil <= preSortValue).toBe(true)
+                    preSortValue = timeInMil
+                })
+            })
+        })
+        test("returns a 400 Bad request when parameter is invalid", () => {
+            return request(app)
+            .get('/api/articles/one/comments')
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Bad request"})
+            })
+        })
+        test("returns a 404 not found when parameter is out of article_id range", () => {
+            return request(app)
+            .get('/api/articles/999/comments')
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: "Comments not found"})
+            })
+        })
     })
 })
