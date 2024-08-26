@@ -355,4 +355,29 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
+    describe("PATCH /api/articles/:article_id", () => {
+        test("returns a 200 status code", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(200)
+        })
+        test("returns an article object with vote incremented by passed body", () => {
+            const body = { inc_votes: 10 }
+            return request(app)
+            .patch('/api/articles/1')
+            .send(body)
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body.length).toBe(1)
+                expect(body[0].votes).toBe(110)
+            })
+        })
+    })
+//     UPDATE employee
+// SET email = 'annie.smith@myemail.com'
+// WHERE emp_id = 1
+// RETURNING *;
 })
