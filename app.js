@@ -43,8 +43,23 @@ app.use((err, request, response, next) => {
 
 app.use((err, request, response, next) => {
     if (err.code === "22P02") {
-        response.status(400).send({msg: "Bad request"})
+        response.status(400).send({msg: "Invalid data format"})
     }
+    next(err)
+})
+
+app.use((err, request, response, next) => {
+    if (err.code === "42703") {
+        response.status(400).send({msg: "Invalid sorting query"})
+    }
+    next(err)
+})
+
+app.use((err, request, response, next) => {
+    if (err.code === "42601") {
+        response.status(400).send({msg: "Invalid sorting order"})
+    }
+    next(err)
 })
 
 

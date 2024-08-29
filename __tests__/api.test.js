@@ -188,12 +188,7 @@ describe("News API BACKEND PROJECT", () => {
             .expect(200)
             .then((response) => {
                 const { body } = response
-                let preSortValue = Infinity
-                body.forEach((article) => {
-                    const timeMil = new Date(article.created_at).getTime()
-                    expect(timeMil <= preSortValue).toBe(true)
-                    preSortValue = timeMil
-                })
+                expect(body).toBeSortedBy('created_at', {'descending': true})
             })
         })
         test("returns a 404 if wrong api url is entered", () => {
@@ -237,12 +232,7 @@ describe("News API BACKEND PROJECT", () => {
             .expect(200)
             .then((response) => {
                 const { body } = response
-                let preSortValue = Infinity
-                body.forEach((comment) => {
-                    const timeInMil = new Date(comment.created_at).getTime()
-                    expect(timeInMil <= preSortValue).toBe(true)
-                    preSortValue = timeInMil
-                })
+                expect(body).toBeSortedBy('created_at', {'descending': true})
             })
         })
         test("returns a 400 Bad request when parameter is invalid", () => {
@@ -439,7 +429,7 @@ describe("News API BACKEND PROJECT", () => {
             .then((response) => {
 
                 const { body } = response
-                expect(body).toEqual({msg: 'Bad request'})
+                expect(body).toEqual({msg: 'Invalid data format'})
             })
         })
         test('returns a 404 comment not found when no comment with comment_id', () => {
@@ -465,6 +455,62 @@ describe("News API BACKEND PROJECT", () => {
                     expect(topic).toHaveProperty("name")
                     expect(topic).toHaveProperty("avatar_url")
                 })
+            })
+        })
+    })
+    describe("GET api/articles sorting queries", () => {
+        test("default sorting by created date and descending", () => {
+            return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body).toBeSortedBy("created_at", {descending:true})
+            })
+        })
+        test("sorts by passed sort query: topic", () => {
+            return request(app)
+            .get('/api/articles?sort_by=topic')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body).toBeSortedBy("topic", {descending:true})
+            })
+        })
+        test("sorts by passed sort query: votes", () => {
+            return request(app)
+            .get('/api/articles?sort_by=votes')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body).toBeSortedBy("votes", {descending:true})
+            })
+        })
+        test("sorts by passed sort query: votes and chosen order:ascending", () => {
+            return request(app)
+            .get('/api/articles?sort_by=votes&&order=ASC')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body).toBeSortedBy("votes", {ascending:true})
+            })
+        })
+        test("returns a 400 Bad request if send an invalid sort query", () => {
+            return request(app)
+            .get('/api/articles?sort_by=boats')
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: 'Invalid sorting query'})
+            })
+        })
+        test("returns a 400 Bad request if sent an invalid sort order", () => {
+            return request(app)
+            .get('/api/articles?order=ascending')
+            .expect(400)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: 'Invalid sorting order'})
             })
         })
     })

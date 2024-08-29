@@ -1,9 +1,16 @@
 const db = require('../db/connection')
 
 
-exports.selectAllArticles = () => {
+exports.selectAllArticles = (query) => {
+    const { sort_by, order } = query
+
+    const sortingOrder = order? order: "DESC"
+    const sortingQuery = sort_by? sort_by: 'created_at'
+    
+
+
 let articlesRowsData
-    return db.query('SELECT * FROM articles ORDER BY created_at DESC')
+    return db.query(`SELECT * FROM articles ORDER BY ${sortingQuery} ${sortingOrder}`)
         .then((articlesData) => {
              articlesRowsData = articlesData.rows
   
