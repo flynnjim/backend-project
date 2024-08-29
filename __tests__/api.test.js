@@ -422,4 +422,34 @@ describe("News API BACKEND PROJECT", () => {
         })
 
     })
+    describe("DELETE /api/comments/:comment_id", () => {
+        test("returns a 204 status code and returns nothing - body is empty object", () => {
+            return request(app)
+            .delete('/api/comments/1')
+            .expect(204)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({})
+            })
+        })
+        test('returns a 400 Bad request when comment_id is invalid data type', () => {
+            return request(app)
+            .delete('/api/comments/one')
+            .expect(400)
+            .then((response) => {
+
+                const { body } = response
+                expect(body).toEqual({msg: 'Bad request'})
+            })
+        })
+        test('returns a 404 comment not found when no comment with comment_id', () => {
+            return request(app)
+            .delete('/api/comments/999')
+            .expect(404)
+            .then((response) => {
+                const { body } = response
+                expect(body).toEqual({msg: 'Comment not found'})
+            })
+        })
+})
 })

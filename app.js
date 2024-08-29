@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 app.use(express.json());
-const {getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments, postComment, patchArticle} = require('./controllers/index.controllers')
+const {getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments, postComment, patchArticle, deleteComment} = require('./controllers/index.controllers')
 
 app.get('/api/topics', getTopics)
 
@@ -16,6 +16,8 @@ app.get('/api/articles/:article_id/comments', getArticleComments)
 app.post('/api/articles/:article_id/comments', postComment)
 
 app.patch('/api/articles/:article_id', patchArticle)
+
+app.delete('/api/comments/:comment_id', deleteComment)
 
 app.all('*', (request, response) => {
     response.status(404).send({msg: "Sorry, the endpoint you are searching for does not exist."})
