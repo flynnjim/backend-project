@@ -24,6 +24,6 @@ exports.insertComment = (params, body) => {
             if (err.code === "23503") {
                 return Promise.reject({msg: "Bad request", status: 400})
             }
-        })
+     })
 }
 

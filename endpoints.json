@@ -91,5 +91,10 @@
       ]
     }
   },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes comment with passed comment_id",
+    "queries": [],
+    "exampleResponse": {}
+  },
   "Things to include": "description, acceptable queries, format and example as above"
 }

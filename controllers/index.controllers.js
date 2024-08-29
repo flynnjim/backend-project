@@ -5,5 +5,6 @@ const { getAllArticles } = require('./get-all-articles.controller.js')
 const { getArticleComments } = require('./get-article-comments.controller.js') 
 const { postComment } = require('./post-comment.controller.js')
 const { patchArticle } = require('./patch-article.controller.js')
+const { deleteComment } = require('./delete-comment.controller.js')
 
-module.exports = { getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments, postComment, patchArticle }
+module.exports = { getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments, postComment, patchArticle, deleteComment }
