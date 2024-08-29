@@ -11,12 +11,4 @@ exports.removeComment = (params) => {
                 return removedComment.rows
             }
         })
-        .catch((err) => {
-            if (err.code === "22P02") {
-                return Promise.reject({msg: "Bad request", status: 400})
-            }
-            if (err.status === 404) {
-                return Promise.reject({msg: "Comment not found", status: 404})
-            }
-        })
 }

@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 app.use(express.json());
-const {getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments, postComment, patchArticle, deleteComment} = require('./controllers/index.controllers')
+const {getTopics, getDocumentation, getArticle, getAllArticles, getArticleComments, postComment, patchArticle, deleteComment, getUsers} = require('./controllers/index.controllers')
 
 app.get('/api/topics', getTopics)
 
@@ -18,6 +18,8 @@ app.post('/api/articles/:article_id/comments', postComment)
 app.patch('/api/articles/:article_id', patchArticle)
 
 app.delete('/api/comments/:comment_id', deleteComment)
+
+app.get('/api/users', getUsers)
 
 app.all('*', (request, response) => {
     response.status(404).send({msg: "Sorry, the endpoint you are searching for does not exist."})
@@ -37,6 +39,12 @@ app.use((err, request, response, next) => {
         response.status(status).send({msg})
     }
     next(err)
+})
+
+app.use((err, request, response, next) => {
+    if (err.code === "22P02") {
+        response.status(400).send({msg: "Bad request"})
+    }
 })
 
 
