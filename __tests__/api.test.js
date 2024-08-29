@@ -451,5 +451,21 @@ describe("News API BACKEND PROJECT", () => {
                 expect(body).toEqual({msg: 'Comment not found'})
             })
         })
-})
+    })
+    describe("GET /api/users", () => {
+        test('returns a 200 response status and data with correct properties', () => {
+            return request(app)
+            .get('/api/users')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(Array.isArray(body)).toBe(true)
+                body.forEach((topic) => {
+                    expect(topic).toHaveProperty("username")
+                    expect(topic).toHaveProperty("name")
+                    expect(topic).toHaveProperty("avatar_url")
+                })
+            })
+        })
+    })
 })

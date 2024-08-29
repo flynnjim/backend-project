@@ -96,5 +96,14 @@
     "queries": [],
     "exampleResponse": {}
   },
-  "Things to include": "description, acceptable queries, format and example as above"
+  "GET /api/users": {
+    "description": "Returns an array of all users details",
+    "queries": [],
+    "exampleResponse": [
+      {"username": "butter_bridge",
+      "name": "jonny",
+      "avatar_url":"https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+    }
+  ]
+  }
 }
