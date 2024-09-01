@@ -74,9 +74,7 @@ describe("News API BACKEND PROJECT", () => {
             .expect(200)
             .then((response) => {
                 const { body } = response
-                expect(Array.isArray(body)).toBe(true)
-                expect(body.length).toBe(1)
-                const objectKeys = Object.keys(body[0])
+                const objectKeys = Object.keys(body.article)
                 expect(objectKeys.includes("author")).toBe(true)
                 expect(objectKeys.includes("title")).toBe(true)
                 expect(objectKeys.includes("article_id")).toBe(true)
@@ -537,6 +535,17 @@ describe("News API BACKEND PROJECT", () => {
                 })
     })
 
-})
-
+    })
+    describe("GET /api/articles/article_id comment_count", () => {
+        test("returns a 200 status and returned body contains comment_count", () => {
+            return request(app)
+            .get('/api/articles/1')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(body.article).toHaveProperty("comment_count")
+                expect(body.article.comment_count).toBe(11)
+            })
+        })
+    })
 })

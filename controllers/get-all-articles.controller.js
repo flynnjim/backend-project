@@ -9,6 +9,7 @@ exports.getAllArticles = (request, response, next) => {
             response.status(200).send(articlesData)
         })
         .catch((err) => {
+
             next(err)
         })
 }
