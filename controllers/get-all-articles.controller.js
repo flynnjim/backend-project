@@ -5,7 +5,7 @@ exports.getAllArticles = (request, response, next) => {
     const { query } = request
 
     selectAllArticles(query)
-        .then((articlesData) => {
+        .then((articlesData) => {            
             response.status(200).send(articlesData)
         })
         .catch((err) => {
