@@ -458,7 +458,7 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
-    describe("GET api/articles sorting queries", () => {
+    describe("GET /api/articles sorting queries", () => {
         test("default sorting by created date and descending", () => {
             return request(app)
             .get('/api/articles')
@@ -514,4 +514,29 @@ describe("News API BACKEND PROJECT", () => {
             })
         })
     })
+    describe("GET /api/articles topic query", () => {
+        test("returns 200 status code and returns only articles with topic specified", () => {
+            return request(app)
+            .get('/api/articles?topic_query=cats')
+            .expect(200)
+            .then((response) => {
+                const { body } = response
+                expect(Array.isArray(body)).toBe(true)
+                body.forEach((article) => {
+                    expect(article.topic).toBe("cats")
+                })
+        })
+    })
+        test("returns 404 when no topic is found", () => {
+            return request(app)
+                .get('/api/articles?topic_query=bats')
+                .expect(404)
+                .then((response) => {
+                    const { body } = response
+                    expect(body.msg).toBe("Article not found")
+                })
+    })
+
+})
+
 })

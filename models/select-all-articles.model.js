@@ -2,17 +2,31 @@ const db = require('../db/connection')
 
 
 exports.selectAllArticles = (query) => {
-    const { sort_by, order } = query
+    const { sort_by, order, topic_query } = query
 
     const sortingOrder = order? order: "DESC"
     const sortingQuery = sort_by? sort_by: 'created_at'
-    
+
+    let baseString = `SELECT * FROM articles`
+
+    if (topic_query) {
+
+        baseString += ` WHERE topic = '${topic_query}'`
+    }
+
+    baseString += ` ORDER BY ${sortingQuery} ${sortingOrder}`
+
 
 
 let articlesRowsData
-    return db.query(`SELECT * FROM articles ORDER BY ${sortingQuery} ${sortingOrder}`)
+    return db.query(baseString)
         .then((articlesData) => {
              articlesRowsData = articlesData.rows
+
+            if (articlesRowsData.length === 0) {
+
+                return Promise.reject({status: 404, msg: "Article not found" })
+            }
   
             articlesRowsData.forEach((article) => {
                 delete article.body
