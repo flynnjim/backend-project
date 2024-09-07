@@ -13,7 +13,7 @@ if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
 
 //
 
-// add onfig variable
+// add config variable
 const config = {};
 
 if (ENV === "production") {
@@ -24,8 +24,8 @@ module.exports = new Pool(config);
 
 //
 
-if (!process.env.PGDATABASE) {
-  throw new Error('PGDATABASE not set');
-}
+// if (!process.env.PGDATABASE) {
+//   throw new Error('PGDATABASE not set');
+// }
 
-module.exports = new Pool();
+// module.exports = new Pool();
