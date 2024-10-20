@@ -34,6 +34,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
          }
         ]
     }
+    ```
 - `GET /api/articles`  
    Responds with a list of all articles. Supports sorting and filtering by queries:
 
@@ -56,6 +57,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
         }
       ]
     }
+    ```
 - `GET /api/articles/:article_id`  
    Responds with a single article by article_id, including the comment_count.  
    Example Response:
@@ -73,6 +75,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
         }
       ]
     }
+    ```
 - `GET /api/articles/:article_id/comments`  
    Responds with a list of comments for the specified article.  
    example Response:  
@@ -88,6 +91,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
         }
       ]
     }
+    ```
 - `POST /api/articles/:article_id/comments`  
    Adds a new comment to the specified article.
   Requires a request body containing username and body.  
@@ -103,7 +107,8 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
             "created_at": "2018-05-30T15:59:13.341Z"
             }
         ]
-        }
+      }
+  ```
 - `PATCH /api/articles/:article_id`  
    Updates an article's vote property by article_id.  
    Requires a request body specifying the fields to update (inc_votes).  
@@ -123,6 +128,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
         }
       ]
     }
+    ```
 - `DELETE /api/comments/:comment_id`  
    Deletes a comment by its comment_id.  
    example Response:  
@@ -141,6 +147,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
         }
       ]
     }
+    ```
 ## **Installation**
 
 1. **Clone the repository**
@@ -222,4 +229,4 @@ To set up PostgreSQL on your system, follow this guide: [Install PostgreSQL](htt
 
 ---
 
-This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
+This portfolio project was created as part of a Digital Skills Bootcamp in Software Development provided by [Northcoders](https://northcoders.com/)
