@@ -145,7 +145,7 @@ NC News is a RESTful API built to provide data programmatically for a front-end 
 
 1. **Clone the repository**
    ```bash
-    git clone https://github.com/northcoders/be-nc-news.git
+    git clone https://github.com/flynnjim/backend-project
    ```
 2. **Install dependencies**
    ```bash
