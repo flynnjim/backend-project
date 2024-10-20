@@ -4,9 +4,20 @@
 
 ### [View API](https://backend-project-fmoa.onrender.com)
 
+## **Table of Contents**
+- [Introduction](#introduction)
+- [Endpoints and Example Response](#endpoints-and-example-responses)
+- [Installation](#installation)
+- [Technologies Used](#technologies-used)
+- [Database Setup](#database-setup)
+- [Dev Dependencies](#dev-dependencies)
+- [Dependencies](#dependencies)
+
+## Introduction
+
 NC News is a RESTful API built to provide data programmatically for a front-end application. This API serves news articles, users, topics, and comments. It allows users to interact with this data by posting comments, deleting comments, and updating articles. The backend is built with PostgreSQL and Node.js, using the Express framework.
 
-## **Endpoints**
+## **Endpoints and Example Responses**
 
 - `GET /api`  
    Responds with a JSON object of available endpoints.
@@ -194,7 +205,7 @@ Tests are run using Jest and Supertest for API endpoint validation.
 
 To set up PostgreSQL on your system, follow this guide: [Install PostgreSQL](https://www.w3schools.com/postgresql/postgresql_install.php)
 
-## **Dev Dependencies:**
+## **Dev Dependencies**
 
 - `"husky": "^9.1.6"`
 - `"jest": "^29.7.0"`
