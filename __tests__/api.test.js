@@ -475,6 +475,15 @@ describe("News API BACKEND PROJECT", () => {
                 expect(body).toBeSortedBy("topic", {descending:true})
             })
         })
+        test("sorts by passed sort query: comment_count", () => {
+            return request(app)
+            .get('/api/articles?sort_by=comment_count')
+            .expect(200)
+            .then((response) => {                
+                const { body } = response
+                expect(body).toBeSortedBy("comment_count", {descending:true})
+            })
+        })
         test("sorts by passed sort query: votes", () => {
             return request(app)
             .get('/api/articles?sort_by=votes')
